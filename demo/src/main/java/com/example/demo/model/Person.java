@@ -1,15 +1,22 @@
 package com.example.demo.model;
 
-import java.util.UUID;
+import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Person {
-    @JsonProperty("id")
-    private final UUID id;
-    @JsonProperty("name")
-    private final String name;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String first_name;
+    private String last_name;
+    private String email;
+
 }

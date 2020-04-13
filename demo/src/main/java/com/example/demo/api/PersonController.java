@@ -1,52 +1,44 @@
 package com.example.demo.api;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.model.Person;
 import com.example.demo.service.PersonService;
 
-@RequestMapping("/api/v1/person")
+@RequestMapping("/api/v1/persons")
 @RestController()
 public class PersonController {
 
-    private final PersonService personService;
-
-
     @Autowired
-    public PersonController(PersonService personService) {
-        this.personService = personService;
-    }
+    private PersonService personService;
 
 
     @PostMapping
-    private void addPerson(@RequestBody Person person){
-        personService.addPerson(person);
+    private Person addPerson(@RequestBody Person person){
+        return personService.addPerson(person);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     private List<Person> getAllPeople(){
         return personService.getAllPeople();
     }
 
     @GetMapping(path = "{id}")
-    public Person getPersonById(@PathVariable("id") UUID id){
-        return personService
-                .getPersonById(id)
-                .orElse(null);
+    public Optional<Person> getPersonById(@PathVariable("id") Long id){
+        return personService.getPersonById(id);
     }
-
-    @DeleteMapping(path = "{id}")
-    public int deletePerson(@PathVariable("id") UUID id){
-        return personService.deletePerson(id);
-    }
-
-    @PutMapping(path = "{id}")
-    public int updatePerson(@PathVariable("id") UUID id, @RequestBody Person person){
-        return personService.updatePerson(id, person);
-    }
+//
+//    @DeleteMapping(path = "{id}")
+//    public int deletePerson(@PathVariable("id") UUID id){
+//        return personService.deletePerson(id);
+//    }
+//
+//    @PutMapping(path = "{id}")
+//    public int updatePerson(@PathVariable("id") UUID id, @RequestBody Person person){
+//        return personService.updatePerson(id, person);
+//    }
 }
